@@ -18,7 +18,8 @@ import {
   Menu,
   X,
   ShoppingCart,
-  Palette
+  Palette,
+  Lock
 } from "lucide-react";
 
 // --- Types ---
@@ -60,6 +61,14 @@ const projects: Project[] = [
     description: "Minimalist portfolio for an award-winning architecture firm. Smooth transitions and gallery-focused layout.",
     tags: ["Astro", "Motion", "CMS"],
     image: "https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&q=80&w=800&ixlib=rb-4.0.3"
+  },
+  {
+    id: "4",
+    title: "Uncolonized Society",
+    category: "E-commerce / Clothing Brand",
+    description: "A bold, culture-driven e-commerce website for Uncolonized Society — a clothing brand rooted in identity and self-expression.",
+    tags: ["React", "Vite", "Tailwind"],
+    image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&q=80&w=800&ixlib=rb-4.0.3"
   }
 ];
 
@@ -402,14 +411,20 @@ const HomeView = ({ setView }: { setView: (v: View) => void }) => {
 
           <div className="grid md:grid-cols-3 gap-8">
             {projects.map((project) => (
-              <div key={project.id} className="group cursor-pointer" onClick={() => setView(project.id === '1' ? 'project-odoo12' : 'work')}>
+              <div key={project.id} className={`group ${project.id === '1' ? 'cursor-pointer' : 'cursor-default'}`} onClick={() => project.id === '1' ? setView('project-odoo12') : null}>
                 <div className="aspect-[4/3] bg-[#F2EFE9] rounded-xl overflow-hidden mb-4 relative">
-                  <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+                  <img src={project.image} alt={project.title} className={`w-full h-full object-cover transition-transform duration-700 ${project.id === '1' ? 'group-hover:scale-105' : 'grayscale opacity-60'}`} />
+                  {project.id !== '1' && (
+                    <div className="absolute inset-0 bg-black/30 flex flex-col items-center justify-center gap-2">
+                      <Lock size={32} className="text-white" />
+                      <span className="text-white text-sm font-medium">Coming Soon</span>
+                    </div>
+                  )}
+                  {project.id === '1' && <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />}
                 </div>
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="text-lg font-medium text-[#3E3832] group-hover:text-[#CA7A60] transition-colors">{project.title}</h3>
+                    <h3 className={`text-lg font-medium ${project.id !== '1' ? 'text-[#6B635B]' : 'text-[#3E3832] group-hover:text-[#CA7A60]'} transition-colors`}>{project.title}</h3>
                     <p className="text-[#6B635B] text-sm">{project.category}</p>
                   </div>
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0 transform duration-300">
@@ -661,9 +676,15 @@ const WorkView = ({ setView }: { setView: (v: View) => void }) => (
 
       <div className="grid md:grid-cols-2 gap-10">
         {projects.map((project, idx) => (
-          <div key={project.id} onClick={() => project.id === '1' ? setView('project-odoo12') : null} className={`group bg-white rounded-xl overflow-hidden border border-[#EBE8E4] hover-lift animate-fade-in ${project.id === '1' ? 'cursor-pointer' : ''}`} style={{ animationDelay: `${idx * 100}ms` }}>
+          <div key={project.id} onClick={() => project.id === '1' ? setView('project-odoo12') : null} className={`group bg-white rounded-xl overflow-hidden border border-[#EBE8E4] animate-fade-in ${project.id === '1' ? 'cursor-pointer hover-lift' : ''}`} style={{ animationDelay: `${idx * 100}ms` }}>
             <div className="aspect-video bg-[#F2EFE9] overflow-hidden relative">
-              <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <img src={project.image} alt={project.title} className={`w-full h-full object-cover transition-transform duration-700 ${project.id === '1' ? 'group-hover:scale-105' : 'grayscale opacity-60'}`} />
+              {project.id !== '1' && (
+                <div className="absolute inset-0 bg-black/30 flex flex-col items-center justify-center gap-2">
+                  <Lock size={36} className="text-white" />
+                  <span className="text-white text-sm font-medium">Coming Soon</span>
+                </div>
+              )}
               <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-[#3E3832]">
                 {project.category}
               </div>
