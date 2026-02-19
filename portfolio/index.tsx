@@ -244,7 +244,7 @@ const HomeView = ({ setView }: { setView: (v: View) => void }) => {
           <div className="flex flex-wrap gap-4 justify-center md:justify-start animate-fade-in delay-300">
             <Button onClick={() => window.open('mailto:edwinidan07@gmail.com')} icon={Mail}>Email Me</Button>
             <Button variant="outline" onClick={() => window.open('https://wa.me/233500610780', '_blank')} icon={MessageCircle}>WhatsApp</Button>
-            <Button variant="ghost" icon={Download}>Download CV</Button>
+            <Button icon={Download} onClick={() => { const a = document.createElement('a'); a.href = '/Edwin_Idan_CV.pdf'; a.download = 'Edwin_Idan_CV.pdf'; a.click(); }} className="!bg-[#CA7A60] !text-white !border-[#CA7A60] hover:!bg-[#b56a52]">Download CV</Button>
           </div>
         </div>
       </section>
