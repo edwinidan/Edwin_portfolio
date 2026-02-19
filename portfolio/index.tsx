@@ -379,7 +379,7 @@ const HomeView = ({ setView }: { setView: (v: View) => void }) => {
             </Card>
 
             <Card className="!border-[#3E3832]">
-              <div className="w-12 h-12 bg-[#EBE8E4] rounded-lg flex items-center justify-center text-[#3E3832] mb-6">
+              <div className="w-12 h-12 bg-[#3E3832] rounded-lg flex items-center justify-center text-white mb-6">
                 <Smartphone size={24} />
               </div>
               <h3 className="text-xl font-serif mb-3 text-[#3E3832]">Mobile App Development</h3>
@@ -947,7 +947,7 @@ const Navbar = ({ view, setView }: { view: View; setView: (v: View) => void }) =
 
   return (
     <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? "bg-white/80 backdrop-blur-md border-b border-[#EBE8E4] py-3" : "bg-transparent py-6"}`}>
-      <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
+      <div className="relative z-50 max-w-6xl mx-auto px-6 flex justify-between items-center">
         <div
           onClick={() => setView('home')}
           className="font-serif text-xl font-bold text-[#3E3832] cursor-pointer tracking-tight"
@@ -993,26 +993,33 @@ const Navbar = ({ view, setView }: { view: View; setView: (v: View) => void }) =
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="absolute top-full right-4 w-64 bg-white border border-[#EBE8E4] rounded-xl p-5 md:hidden flex flex-col gap-3 shadow-xl">
-          {navLinks.map(link => (
+        <>
+          <div
+            className="fixed inset-0 z-40 md:hidden"
+            onClick={() => setMobileMenuOpen(false)}
+            onTouchStart={() => setMobileMenuOpen(false)}
+          />
+          <div className="absolute top-full right-4 z-50 w-64 bg-white border border-[#EBE8E4] rounded-xl p-5 md:hidden flex flex-col gap-3 shadow-xl">
+            {navLinks.map(link => (
+              <button
+                key={link.id}
+                onClick={() => {
+                  setView(link.id);
+                  setMobileMenuOpen(false);
+                }}
+                className={`text-left text-lg font-medium pl-4 ${view === link.id ? "text-[#CA7A60]" : "text-[#3E3832]"}`}
+              >
+                {link.label}
+              </button>
+            ))}
             <button
-              key={link.id}
-              onClick={() => {
-                setView(link.id);
-                setMobileMenuOpen(false);
-              }}
-              className={`text-left text-lg font-medium pl-4 ${view === link.id ? "text-[#CA7A60]" : "text-[#3E3832]"}`}
+              onClick={() => { setView('contact'); setMobileMenuOpen(false); }}
+              className="text-left text-lg font-medium text-white bg-[#3E3832] px-4 py-2 rounded-lg"
             >
-              {link.label}
+              Hire Me
             </button>
-          ))}
-          <button
-            onClick={() => { setView('contact'); setMobileMenuOpen(false); }}
-            className="text-left text-lg font-medium text-white bg-[#3E3832] px-4 py-2 rounded-lg"
-          >
-            Hire Me
-          </button>
-        </div>
+          </div>
+        </>
       )}
     </nav>
   );
