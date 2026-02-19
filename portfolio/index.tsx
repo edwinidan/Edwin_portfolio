@@ -19,7 +19,9 @@ import {
   X,
   ShoppingCart,
   Palette,
-  Lock
+  Lock,
+  Moon,
+  Sun
 } from "lucide-react";
 
 // --- Types ---
@@ -356,7 +358,7 @@ const HomeView = ({ setView }: { setView: (v: View) => void }) => {
           <SectionHeading title="What I Build" subtitle="What I Do" />
 
           <div className="grid md:grid-cols-2 gap-6">
-            <Card>
+            <Card className="!border-[#3E3832]">
               <div className="w-12 h-12 bg-[#3E3832] rounded-lg flex items-center justify-center text-white mb-6">
                 <Code2 size={24} />
               </div>
@@ -366,7 +368,7 @@ const HomeView = ({ setView }: { setView: (v: View) => void }) => {
               </p>
             </Card>
 
-            <Card className="bg-[#3E3832] !border-[#3E3832] group">
+            <Card className="!border-[#3E3832]">
               <div className="w-12 h-12 bg-[#CA7A60] rounded-lg flex items-center justify-center text-white mb-6">
                 <ShoppingCart size={24} />
               </div>
@@ -376,7 +378,7 @@ const HomeView = ({ setView }: { setView: (v: View) => void }) => {
               </p>
             </Card>
 
-            <Card>
+            <Card className="!border-[#3E3832]">
               <div className="w-12 h-12 bg-[#EBE8E4] rounded-lg flex items-center justify-center text-[#3E3832] mb-6">
                 <Smartphone size={24} />
               </div>
@@ -386,7 +388,7 @@ const HomeView = ({ setView }: { setView: (v: View) => void }) => {
               </p>
             </Card>
 
-            <Card>
+            <Card className="!border-[#3E3832]">
               <div className="w-12 h-12 bg-[#3E3832] rounded-lg flex items-center justify-center text-white mb-6">
                 <Palette size={24} />
               </div>
@@ -413,11 +415,11 @@ const HomeView = ({ setView }: { setView: (v: View) => void }) => {
             {projects.map((project) => (
               <div key={project.id} className={`group ${project.id === '1' ? 'cursor-pointer' : 'cursor-default'}`} onClick={() => project.id === '1' ? setView('project-odoo12') : null}>
                 <div className="aspect-[4/3] bg-[#F2EFE9] rounded-xl overflow-hidden mb-4 relative">
-                  <img src={project.image} alt={project.title} className={`w-full h-full object-cover transition-transform duration-700 ${project.id === '1' ? 'group-hover:scale-105' : 'grayscale opacity-60'}`} />
+                  <img src={project.image} alt={project.title} className={`w-full h-full object-cover transition-transform duration-700 ${project.id === '1' ? 'group-hover:scale-105' : 'grayscale opacity-60 blur-md'}`} />
                   {project.id !== '1' && (
                     <div className="absolute inset-0 bg-black/30 flex flex-col items-center justify-center gap-2">
                       <Lock size={32} className="text-white" />
-                      <span className="text-white text-sm font-medium">Coming Soon</span>
+                      <span className="text-white text-sm font-medium">Under Construction</span>
                     </div>
                   )}
                   {project.id === '1' && <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />}
@@ -477,7 +479,7 @@ const HomeView = ({ setView }: { setView: (v: View) => void }) => {
       </section>
 
       {/* Mini About */}
-      <section className="py-24 px-6 bg-[#3E3832] text-white relative overflow-hidden">
+      <section className="py-24 px-6 bg-[#3E3832] dark:!bg-gradient-to-b dark:!from-[#26221E] dark:!to-[#1E1B18] text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#CA7A60]/10 rounded-full blur-[100px] pointer-events-none" />
         <div className="max-w-3xl mx-auto text-center relative z-10">
           <h2 className="text-3xl md:text-5xl font-serif mb-6">Reliable. Professional. Calm.</h2>
@@ -678,11 +680,11 @@ const WorkView = ({ setView }: { setView: (v: View) => void }) => (
         {projects.map((project, idx) => (
           <div key={project.id} onClick={() => project.id === '1' ? setView('project-odoo12') : null} className={`group bg-white rounded-xl overflow-hidden border border-[#EBE8E4] animate-fade-in ${project.id === '1' ? 'cursor-pointer hover-lift' : ''}`} style={{ animationDelay: `${idx * 100}ms` }}>
             <div className="aspect-video bg-[#F2EFE9] overflow-hidden relative">
-              <img src={project.image} alt={project.title} className={`w-full h-full object-cover transition-transform duration-700 ${project.id === '1' ? 'group-hover:scale-105' : 'grayscale opacity-60'}`} />
+              <img src={project.image} alt={project.title} className={`w-full h-full object-cover transition-transform duration-700 ${project.id === '1' ? 'group-hover:scale-105' : 'grayscale opacity-60 blur-md'}`} />
               {project.id !== '1' && (
                 <div className="absolute inset-0 bg-black/30 flex flex-col items-center justify-center gap-2">
                   <Lock size={36} className="text-white" />
-                  <span className="text-white text-sm font-medium">Coming Soon</span>
+                  <span className="text-white text-sm font-medium">Under Construction</span>
                 </div>
               )}
               <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-[#3E3832]">
@@ -749,7 +751,7 @@ const AboutView = () => (
             </div>
           </div>
 
-          <Button icon={Download} variant="outline">Download My Resume</Button>
+          <Button icon={Download} variant="outline" onClick={() => { const a = document.createElement('a'); a.href = '/Edwin_Idan_CV.pdf'; a.download = 'Edwin_Idan_CV.pdf'; a.click(); }}>Download My Resume</Button>
         </div>
 
         {/* Sidebar / Stats */}
@@ -785,53 +787,94 @@ const AboutView = () => (
   </section>
 );
 
-const ContactView = () => (
-  <section className="pt-32 pb-24 px-6 min-h-screen bg-[#F9F8F6] flex flex-col justify-center">
-    <div className="max-w-2xl mx-auto w-full animate-fade-in">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-serif text-[#3E3832] mb-4">Get in Touch</h1>
-        <p className="text-[#6B635B]">Have a project in mind or a job opportunity? I'd love to hear from you.</p>
-      </div>
+const ContactView = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: 'New Website Project',
+    message: ''
+  });
 
-      <div className="bg-white p-8 md:p-12 rounded-2xl border border-[#EBE8E4] shadow-sm">
-        <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-[#3E3832]">Name</label>
-              <input type="text" className="w-full px-4 py-3 rounded-lg bg-[#F9F8F6] border border-[#EBE8E4] focus:border-[#CA7A60] focus:ring-1 focus:ring-[#CA7A60] outline-none transition-all" placeholder="John Doe" />
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const { name, email, subject, message } = formData;
+    const mailtoLink = `mailto:edwinidan07@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`;
+    window.location.href = mailtoLink;
+  };
+
+  return (
+    <section className="pt-32 pb-24 px-6 min-h-screen bg-[#F9F8F6] flex flex-col justify-center">
+      <div className="max-w-2xl mx-auto w-full animate-fade-in">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-serif text-[#3E3832] mb-4">Get in Touch</h1>
+          <p className="text-[#6B635B]">Have a project in mind or a job opportunity? I'd love to hear from you.</p>
+        </div>
+
+        <div className="bg-white p-8 md:p-12 rounded-2xl border border-[#EBE8E4] shadow-sm">
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-[#3E3832]">Name</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg bg-[#F9F8F6] border border-[#EBE8E4] focus:border-[#CA7A60] focus:ring-1 focus:ring-[#CA7A60] outline-none transition-all"
+                  placeholder="John Doe"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-[#3E3832]">Email</label>
+                <input
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg bg-[#F9F8F6] border border-[#EBE8E4] focus:border-[#CA7A60] focus:ring-1 focus:ring-[#CA7A60] outline-none transition-all"
+                  placeholder="john@example.com"
+                />
+              </div>
             </div>
+
             <div className="space-y-2">
-              <label className="text-sm font-medium text-[#3E3832]">Email</label>
-              <input type="email" className="w-full px-4 py-3 rounded-lg bg-[#F9F8F6] border border-[#EBE8E4] focus:border-[#CA7A60] focus:ring-1 focus:ring-[#CA7A60] outline-none transition-all" placeholder="john@example.com" />
+              <label className="text-sm font-medium text-[#3E3832]">Subject</label>
+              <select
+                value={formData.subject}
+                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                className="w-full px-4 py-3 rounded-lg bg-[#F9F8F6] border border-[#EBE8E4] focus:border-[#CA7A60] focus:ring-1 focus:ring-[#CA7A60] outline-none transition-all"
+              >
+                <option>New Website Project</option>
+                <option>IT Support Inquiry</option>
+                <option>Job / Internship Opportunity</option>
+                <option>Other</option>
+              </select>
             </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-[#3E3832]">Message</label>
+              <textarea
+                rows={5}
+                required
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                className="w-full px-4 py-3 rounded-lg bg-[#F9F8F6] border border-[#EBE8E4] focus:border-[#CA7A60] focus:ring-1 focus:ring-[#CA7A60] outline-none transition-all resize-none"
+                placeholder="Tell me about your project..."
+              ></textarea>
+            </div>
+
+            <Button className="w-full">Send Message</Button>
+          </form>
+
+          <div className="mt-8 pt-8 border-t border-[#EBE8E4] flex flex-col items-center gap-4">
+            <p className="text-sm text-[#6B635B]">Or connect directly via</p>
+            <Button variant="outline" onClick={() => window.open('https://wa.me/233500610780', '_blank')} icon={MessageCircle} className="w-full">Chat on WhatsApp</Button>
           </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-[#3E3832]">Subject</label>
-            <select className="w-full px-4 py-3 rounded-lg bg-[#F9F8F6] border border-[#EBE8E4] focus:border-[#CA7A60] focus:ring-1 focus:ring-[#CA7A60] outline-none transition-all">
-              <option>New Website Project</option>
-              <option>IT Support Inquiry</option>
-              <option>Job / Internship Opportunity</option>
-              <option>Other</option>
-            </select>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-[#3E3832]">Message</label>
-            <textarea rows={5} className="w-full px-4 py-3 rounded-lg bg-[#F9F8F6] border border-[#EBE8E4] focus:border-[#CA7A60] focus:ring-1 focus:ring-[#CA7A60] outline-none transition-all resize-none" placeholder="Tell me about your project..."></textarea>
-          </div>
-
-          <Button className="w-full">Send Message</Button>
-        </form>
-
-        <div className="mt-8 pt-8 border-t border-[#EBE8E4] flex flex-col items-center gap-4">
-          <p className="text-sm text-[#6B635B]">Or connect directly via</p>
-          <Button variant="outline" onClick={() => window.open('https://wa.me/233500610780', '_blank')} icon={MessageCircle} className="w-full">Chat on WhatsApp</Button>
         </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 const Footer = ({ setView }: { setView: (v: View) => void }) => (
   <footer className="bg-white border-t border-[#EBE8E4] py-12 px-6">
@@ -863,6 +906,31 @@ const Footer = ({ setView }: { setView: (v: View) => void }) => (
 const Navbar = ({ view, setView }: { view: View; setView: (v: View) => void }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Check local storage or system preference
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      setDarkMode(true);
+      document.documentElement.classList.add('dark');
+    } else {
+      setDarkMode(false);
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    if (darkMode) {
+      document.documentElement.classList.remove('dark');
+      localStorage.theme = 'light';
+      setDarkMode(false);
+    } else {
+      document.documentElement.classList.add('dark');
+      localStorage.theme = 'dark';
+      setDarkMode(true);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -898,13 +966,29 @@ const Navbar = ({ view, setView }: { view: View; setView: (v: View) => void }) =
               {link.label}
             </button>
           ))}
+          <button
+            onClick={toggleDarkMode}
+            className="p-2 text-[#6B635B] hover:text-[#3E3832] transition-colors rounded-full hover:bg-black/5"
+            aria-label="Toggle Dark Mode"
+          >
+            {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
           <Button onClick={() => setView('contact')} className="!py-2 !px-4 text-sm">Hire Me</Button>
         </div>
 
         {/* Mobile Toggle */}
-        <button className="md:hidden text-[#3E3832]" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-          {mobileMenuOpen ? <X /> : <Menu />}
-        </button>
+        <div className="flex items-center gap-4 md:hidden">
+          <button
+            onClick={toggleDarkMode}
+            className="text-[#3E3832] p-1"
+            aria-label="Toggle Dark Mode"
+          >
+            {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+          <button className="text-[#3E3832]" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            {mobileMenuOpen ? <X /> : <Menu />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}

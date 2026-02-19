@@ -20,6 +20,14 @@
       --accent-sage: #8A9A8A;
     }
 
+    html.dark {
+      --bg-color: #2D2926;
+      --text-primary: #F4EFE8;
+      --text-secondary: #CEC2B4;
+      --accent-terracotta: #E09074;
+      --accent-sage: #A6BAA6;
+    }
+
     body {
       background-color: var(--bg-color);
       color: var(--text-primary);
@@ -106,6 +114,11 @@
       animation: drift 15s ease infinite;
     }
 
+    html.dark .bg-gradient-drift {
+      background: linear-gradient(-45deg, #2D2926, #38332E, #433C36, #2D2926);
+      background-size: 400% 400%;
+    }
+
     .hover-lift {
       transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
@@ -168,6 +181,101 @@
     }
 
     .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Premium Dark Mode System */
+    html.dark {
+      color-scheme: dark;
+    }
+
+    html.dark body {
+      background-color: #1E1B18;
+      color: #EDE8E1;
+    }
+
+    /* Primary Backgrounds */
+    html.dark .bg-\[\#F9F8F6\] {
+      background-color: #1E1B18 !important;
+    }
+
+    /* Secondary Backgrounds (Cards, Nav) */
+    html.dark .bg-white {
+      background-color: #26221E !important;
+    }
+
+    html.dark .bg-white\/50,
+    html.dark .bg-white\/80,
+    html.dark .bg-white\/90 {
+      background-color: rgba(38, 34, 30, 0.95) !important;
+      backdrop-filter: blur(12px);
+    }
+
+    /* Card Placeholders */
+    html.dark .bg-\[\#F2EFE9\] {
+      background-color: #26221E !important;
+    }
+
+    /* Typography */
+    /* Primary Text: #3E3832 -> #EDE8E1 */
+    html.dark .text-\[\#3E3832\] {
+      color: #EDE8E1 !important;
+    }
+
+    /* Muted Text: #6B635B -> #B8B1A9 */
+    html.dark .text-\[\#6B635B\] {
+      color: #B8B1A9 !important;
+    }
+
+    /* Borders */
+    /* Dividers: #EBE8E4 -> #3E3832 */
+    html.dark .border-\[\#EBE8E4\] {
+      border-color: #3E3832 !important;
+    }
+
+    /* Primary Button Inversion */
+    /* Light Mode: Bg Dark (#3E3832), Text White */
+    /* Dark Mode: Bg Light (#EDE8E1), Text Dark (#1E1B18) */
+    html.dark .bg-\[\#3E3832\]:not(.text-white) {
+      background-color: #EDE8E1 !important;
+      color: #1E1B18 !important;
+    }
+
+    /* Override text-white inside the primary button to be dark */
+    html.dark .bg-\[\#3E3832\] .text-white {
+      color: #1E1B18 !important;
+    }
+
+    /* Secondary/Outline Button */
+    /* Light Mode: Border #3E3832, Text #3E3832 */
+    /* Dark Mode: Border #3E3832 (Keep), Text #EDE8E1 (Handled by text rule) */
+    /* Note: .border-[#3E3832] is not overridden, so it stays dark border. */
+
+    /* Scrollbar */
+    html.dark ::-webkit-scrollbar-thumb {
+      background-color: #3E3832;
+    }
+
+    html.dark ::-webkit-scrollbar-track {
+      background: #1E1B18;
+    }
+
+    /* Gradient Animation Override */
+    html.dark .bg-gradient-drift {
+      background: #1E1B18 !important;
+      /* Simplify to solid or very subtle gradient */
+      background-image: linear-gradient(to bottom, #1E1B18, #1E1B18) !important;
+    }
+
+    /* Selection */
+    html.dark ::selection {
+      background-color: #EDE8E1;
+      color: #1E1B18;
+    }
+
+    /* Noise */
+    html.dark .noise-overlay {
+      opacity: 0;
       display: none;
     }
   </style>
