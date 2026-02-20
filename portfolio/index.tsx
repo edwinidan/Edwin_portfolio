@@ -867,10 +867,6 @@ const AboutView = () => (
           <ul className="space-y-4 text-[#6B635B]">
             <li className="flex items-center gap-3">
               <div className="w-2 h-2 rounded-full bg-[#CA7A60]" />
-              <span>Based in [Your City]</span>
-            </li>
-            <li className="flex items-center gap-3">
-              <div className="w-2 h-2 rounded-full bg-[#CA7A60]" />
               <span>Comp. Eng. Graduate</span>
             </li>
             <li className="flex items-center gap-3">
