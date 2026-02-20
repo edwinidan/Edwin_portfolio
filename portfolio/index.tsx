@@ -26,7 +26,7 @@ import {
 
 // --- Types ---
 
-type View = "home" | "work" | "about" | "contact" | "project-odoo12";
+type View = "home" | "work" | "blog" | "about" | "contact" | "project-odoo12";
 
 interface Project {
   id: string;
@@ -35,6 +35,18 @@ interface Project {
   description: string;
   tags: string[];
   image: string; // Using placeholders for now
+}
+
+interface BlogPost {
+  id: string;
+  title: string;
+  date: string;
+  readTime: string;
+  summary: string;
+  sections: {
+    heading: string;
+    content: string;
+  }[];
 }
 
 // --- Data ---
@@ -76,6 +88,38 @@ const projects: Project[] = [
 
 const techStack = [
   "Next.js", "React", "TypeScript", "Tailwind CSS", "Node.js", "PostgreSQL", "Git", "Figma"
+];
+
+const blogPosts: BlogPost[] = [
+  {
+    id: "airtag-basics",
+    title: "How an AirTag Works: Simple Technical Summary",
+    date: "February 20, 2026",
+    readTime: "4 min read",
+    summary: "AirTag is a tiny Bluetooth tracker that uses Apple's Find My network. It does not need GPS inside the tag; nearby Apple devices securely help report its location.",
+    sections: [
+      {
+        heading: "1. Core Idea",
+        content: "An AirTag sends out a secure Bluetooth signal. When any nearby iPhone, iPad, or Mac detects that signal, the device can privately relay the AirTag's location to iCloud so the owner sees it in Find My."
+      },
+      {
+        heading: "2. Why It Works Without a SIM or Built-in GPS",
+        content: "AirTag depends on the huge Find My device network instead of cellular data. It borrows location from nearby Apple devices, which makes the tag small, low-power, and battery-efficient."
+      },
+      {
+        heading: "3. Precision Finding",
+        content: "With compatible iPhones, Precision Finding combines Ultra Wideband guidance, camera, accelerometer, and AR-style directions to lead you toward the tag with distance and directional feedback."
+      },
+      {
+        heading: "4. Privacy and Anti-Tracking",
+        content: "Location reports are encrypted end-to-end so only the owner can view them. Apple also adds anti-stalking safeguards, including alerts when an unknown AirTag appears to be moving with you."
+      },
+      {
+        heading: "5. Practical Limits",
+        content: "Tracking quality depends on nearby Apple devices and environment. AirTag is best for finding keys, bags, and similar personal items, not for real-time tracking in every location."
+      }
+    ]
+  }
 ];
 
 // --- Components ---
@@ -508,6 +552,46 @@ const HomeView = ({ setView }: { setView: (v: View) => void }) => {
   );
 };
 
+const BlogView = () => (
+  <section className="pt-32 pb-24 px-6 min-h-screen bg-[#F9F8F6]">
+    <div className="max-w-4xl mx-auto animate-fade-in">
+      <div className="mb-16">
+        <h1 className="text-4xl md:text-6xl font-serif text-[#3E3832] mb-5">Blog</h1>
+        <p className="text-xl text-[#6B635B] max-w-3xl">
+          A place where I share short write-ups on new things I learn.
+        </p>
+      </div>
+
+      <div className="space-y-10">
+        {blogPosts.map((post) => (
+          <article key={post.id} className="bg-white border border-[#EBE8E4] rounded-2xl p-8 md:p-10">
+            <div className="mb-6">
+              <p className="text-sm text-[#CA7A60] font-medium tracking-wide uppercase mb-2">First Post</p>
+              <h2 className="text-2xl md:text-4xl font-serif text-[#3E3832] mb-3">{post.title}</h2>
+              <div className="flex flex-wrap items-center gap-3 text-sm text-[#6B635B]">
+                <span>{post.date}</span>
+                <span className="text-[#EBE8E4]">•</span>
+                <span>{post.readTime}</span>
+              </div>
+            </div>
+
+            <p className="text-[#6B635B] leading-relaxed mb-8 text-lg">{post.summary}</p>
+
+            <div className="space-y-6">
+              {post.sections.map((section) => (
+                <div key={section.heading} className="p-5 rounded-xl bg-[#F9F8F6] border border-[#EBE8E4]">
+                  <h3 className="text-lg font-medium text-[#3E3832] mb-2">{section.heading}</h3>
+                  <p className="text-[#6B635B] leading-relaxed">{section.content}</p>
+                </div>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
 const Odoo12DetailView = ({ setView }: { setView: (v: View) => void }) => (
   <section className="pt-32 pb-24 px-6 min-h-screen bg-[#F9F8F6]">
     <div className="max-w-4xl mx-auto animate-fade-in">
@@ -887,6 +971,7 @@ const Footer = ({ setView }: { setView: (v: View) => void }) => (
       <div className="flex gap-8 text-sm font-medium text-[#6B635B]">
         <button onClick={() => setView('home')} className="hover:text-[#CA7A60] transition-colors">Home</button>
         <button onClick={() => setView('work')} className="hover:text-[#CA7A60] transition-colors">Work</button>
+        <button onClick={() => setView('blog')} className="hover:text-[#CA7A60] transition-colors">Blog</button>
         <button onClick={() => setView('about')} className="hover:text-[#CA7A60] transition-colors">About</button>
         <button onClick={() => setView('contact')} className="hover:text-[#CA7A60] transition-colors">Contact</button>
       </div>
@@ -941,6 +1026,7 @@ const Navbar = ({ view, setView }: { view: View; setView: (v: View) => void }) =
   const navLinks: { id: View; label: string }[] = [
     { id: "home", label: "Home" },
     { id: "work", label: "Work" },
+    { id: "blog", label: "Blog" },
     { id: "about", label: "About" },
     { id: "contact", label: "Contact" }
   ];
@@ -1042,6 +1128,7 @@ const App = () => {
       <main className="flex-grow">
         {view === "home" && <HomeView setView={setView} />}
         {view === "work" && <WorkView setView={setView} />}
+        {view === "blog" && <BlogView />}
         {view === "about" && <AboutView />}
         {view === "contact" && <ContactView />}
         {view === "project-odoo12" && <Odoo12DetailView setView={setView} />}
