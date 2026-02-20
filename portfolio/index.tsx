@@ -552,45 +552,68 @@ const HomeView = ({ setView }: { setView: (v: View) => void }) => {
   );
 };
 
-const BlogView = () => (
-  <section className="pt-32 pb-24 px-6 min-h-screen bg-[#F9F8F6]">
-    <div className="max-w-4xl mx-auto animate-fade-in">
-      <div className="mb-16">
-        <h1 className="text-4xl md:text-6xl font-serif text-[#3E3832] mb-5">Blog</h1>
-        <p className="text-xl text-[#6B635B] max-w-3xl">
-          A place where I share short write-ups on new things I learn.
-        </p>
+const BlogView = () => {
+  const [openPostId, setOpenPostId] = useState<string | null>(null);
+
+  return (
+    <section className="pt-32 pb-24 px-6 min-h-screen bg-[#F9F8F6]">
+      <div className="max-w-4xl mx-auto animate-fade-in">
+        <div className="mb-16">
+          <h1 className="text-4xl md:text-6xl font-serif text-[#3E3832] mb-5">Blog</h1>
+          <p className="text-xl text-[#6B635B] max-w-3xl">
+            A place where I share short write-ups on new things I learn.
+          </p>
+        </div>
+
+        <div className="space-y-6">
+          {blogPosts.map((post) => {
+            const isOpen = openPostId === post.id;
+
+            return (
+              <article key={post.id} className="bg-white border border-[#EBE8E4] rounded-2xl p-6 md:p-8">
+                <button
+                  onClick={() => setOpenPostId(isOpen ? null : post.id)}
+                  className="w-full flex items-center justify-between gap-4 text-left"
+                  aria-expanded={isOpen}
+                  aria-controls={`blog-post-${post.id}`}
+                >
+                  <h2 className="text-2xl md:text-3xl font-serif text-[#3E3832]">{post.title}</h2>
+                  <ArrowRight
+                    size={20}
+                    className={`text-[#CA7A60] shrink-0 transition-transform duration-300 ${isOpen ? "rotate-90" : ""}`}
+                  />
+                </button>
+
+                {isOpen && (
+                  <div id={`blog-post-${post.id}`} className="mt-6">
+                    <div className="mb-6">
+                      <div className="flex flex-wrap items-center gap-3 text-sm text-[#6B635B]">
+                        <span>{post.date}</span>
+                        <span className="text-[#EBE8E4]">•</span>
+                        <span>{post.readTime}</span>
+                      </div>
+                    </div>
+
+                    <p className="text-[#6B635B] leading-relaxed mb-8 text-lg">{post.summary}</p>
+
+                    <div className="space-y-6">
+                      {post.sections.map((section) => (
+                        <div key={section.heading} className="p-5 rounded-xl bg-[#F9F8F6] border border-[#EBE8E4]">
+                          <h3 className="text-lg font-medium text-[#3E3832] mb-2">{section.heading}</h3>
+                          <p className="text-[#6B635B] leading-relaxed">{section.content}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </article>
+            );
+          })}
+        </div>
       </div>
-
-      <div className="space-y-10">
-        {blogPosts.map((post) => (
-          <article key={post.id} className="bg-white border border-[#EBE8E4] rounded-2xl p-8 md:p-10">
-            <div className="mb-6">
-              <p className="text-sm text-[#CA7A60] font-medium tracking-wide uppercase mb-2">First Post</p>
-              <h2 className="text-2xl md:text-4xl font-serif text-[#3E3832] mb-3">{post.title}</h2>
-              <div className="flex flex-wrap items-center gap-3 text-sm text-[#6B635B]">
-                <span>{post.date}</span>
-                <span className="text-[#EBE8E4]">•</span>
-                <span>{post.readTime}</span>
-              </div>
-            </div>
-
-            <p className="text-[#6B635B] leading-relaxed mb-8 text-lg">{post.summary}</p>
-
-            <div className="space-y-6">
-              {post.sections.map((section) => (
-                <div key={section.heading} className="p-5 rounded-xl bg-[#F9F8F6] border border-[#EBE8E4]">
-                  <h3 className="text-lg font-medium text-[#3E3832] mb-2">{section.heading}</h3>
-                  <p className="text-[#6B635B] leading-relaxed">{section.content}</p>
-                </div>
-              ))}
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 const Odoo12DetailView = ({ setView }: { setView: (v: View) => void }) => (
   <section className="pt-32 pb-24 px-6 min-h-screen bg-[#F9F8F6]">
